@@ -1,0 +1,70 @@
+<div class="jumbotron" style = "text-align: center;">
+	<header> <h1>Eat-Da-Burger!</h1></header>
+	<img src="/assets/img/burger.png" alt="Icon";>
+</div>
+
+<div class="container">
+<div class="col-lg-4">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Burgers to be Devoured!</h3>
+    </div>
+    <div class="panel-body">
+      {{#each burgers}}
+        {{#unless this.devoured}}
+        <div class = "well">
+            <div class="row">
+							<div class="col-sm-6">
+								<form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+					  		<input type="hidden" name="devoured" value="true">
+					  	</div>
+							<div class="col-sm-6">
+								<span>{{this.id}}. {{this.burger_name}}<button type="submit" class="btn btn-primary" style = "margin: 10px; clear:both;">Devour it!</button></span>
+							</div>
+								</form>
+						</div>
+        	</div>  
+        {{/unless}}
+      {{/each}}
+    </div>
+  </div>
+</div>
+
+	<div class="col-lg-4">
+	  <div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Add a Burger</h3>
+			</div>
+			<div class="panel-body">
+				<form class="create-update-form" action="burgers/create" method="POST">
+				<div class="form-group">
+					<label for="newBurger">Burger Name:</label>
+					<input type="hidden" name="devoured" value="0">
+					<input type="text" id="newBurger" name="burger_name">
+					<br />
+					<button type="submit" class="btn btn-primary" style = "margin: 10px; clear:both";>Add Burger</button>
+				</div>   
+				</form>
+			</div>
+	  </div> 
+	</div>
+
+	<div class="col-lg-4">
+	  <div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Burgers Devoured:</h3>
+			</div>
+			<div class="panel-body">
+				{{#each burgers}}
+					{{#if this.devoured}}
+						{{this.id}}. {{this.burger_name}}
+							<form action="burgers/update/{{this.id}}?_method=PUT" method="POST">
+								<input type="hidden" name="devoured" value="false">
+							</form>
+					{{/if}}
+		  	{{/each}}
+			</div>
+	  </div>    
+	</div>
+	
+</div>
