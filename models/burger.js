@@ -1,13 +1,5 @@
-var Sequelize = require('sequelize');
-
 module.exports = function(sequelize, DataTypes) {
     var Burger = sequelize.define("Burger", {
-        id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true,
-                allowNull: false
-            },
         burger_name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -18,18 +10,7 @@ module.exports = function(sequelize, DataTypes) {
         devoured: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            allowNull: false,
-            defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         }
     });
-
     return Burger;
 };

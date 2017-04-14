@@ -1,48 +1,47 @@
+// Importing NPM dependency and Express router function.
 var express = require('express');
-
 var router = express.Router();
 
-// Import data model.
-var db = require('../models');
+// Importing data model.
+var models = require('../models');
 
-
-// Create all our routes and set up logic within those routes where required.
+// Creating the routes and set up logic within those routes where required.
 router.get('/', function(req, res) {
     res.redirect('/burgers')
 });
 
-router.get('/burgers', function (req, res) {
-    db.Burger.findAll({
-         
-    }).then(function (data) {
-        var hbsObject = {
-            burgers: data
-        };
-        res.render('index', hbsObject);
-    });
+router.get("/burgers", function(req, res) {
+    models.Burger.findAll({ order: 'burger_name ASC' })
+        .then(function(data) {
+            var hbsObject = {
+                burgers: data
+            };
+            res.render('index', hbsObject);
+        });
 });
 
-
-router.post('/burgers/create', function (req, res) {
-    var burgerName = req.body.name;
-    db.Burger.create({
-        burger_name: burgerName
-    }).then(function () {
-        res.redirect('/');
-    });
+router.post("/burgers/create", function(req, res) {
+    models.Burger.create({
+            burger_name: req.body.burger_name
+        })
+        .then(function() {
+            res.redirect('/burgers');
+        });
 });
 
+router.put("/burgers/update/:id", function(req, res) {
+    var condition = "id = " + req.params.id;
 
-router.put('/burgers/update/:id', function (req, res) {
-    var devoured = false;
-    var ID = req.params.id;
-
-    db.Burger.update(
-        {devoured: devoured},
-        {where: {id: ID}}
-    ).then(function () {
-        res.redirect('/');
-    });
+    models.Burger.update({
+            devoured: true,
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(function() {
+            res.redirect('/burgers');
+        })
 });
 
 // Export routes for server.js to use.
